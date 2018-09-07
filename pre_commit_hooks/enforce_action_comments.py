@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import argparse
+import os
 
 
 WARNING_MSG = 'Actionable comment "{0}" found in {1}:{2}'
@@ -15,17 +16,19 @@ def main(argv=None):
 
     retcode = 0
     for filename in args.filenames:
-        with open(filename, 'r') as inputfile:
-            try:
-                for i, line in enumerate(inputfile):
-                    for pattern in args.tags:
-                        if pattern in line:
-                            print(WARNING_MSG.format(
-                                pattern.decode(), filename, i + 1,
-                            ))
-                            retcode = 1
-            except UnicodeDecodeError:
-                continue
+        # If no check is done here, submodules will be incorrectly included here
+        if os.path.isfile(filename):
+            with open(filename, 'r') as inputfile:
+                try:
+                    for i, line in enumerate(inputfile):
+                        for pattern in args.tags:
+                            if pattern in line:
+                                print(WARNING_MSG.format(
+                                    pattern.decode(), filename, i + 1,
+                                ))
+                                retcode = 1
+                except UnicodeDecodeError:
+                    continue
 
     return retcode
 

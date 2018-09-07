@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import argparse
+import os
 from os import path
 import re
 import subprocess
@@ -36,15 +37,17 @@ def main(argv=None):
 
     retcode = 0
     for filename in args.filenames:
-        with open(filename, 'rb') as inputfile:
-            if '\0' not in inputfile.read(8000):
-                continue # File doesn't appear to be binary
-        if filename not in lfs_files:
-            size = path.getsize(filename)
-            if size > args.maximum_binary_size:
-                print(WARNING_MSG.format(filename, sizeof_fmt(size),
-                    sizeof_fmt(args.maximum_binary_size)))
-                retcode = 1
+        # If no check is done here, submodules will be incorrectly included here
+        if os.path.isfile(filename):
+            with open(filename, 'rb') as inputfile:
+                if '\0' not in inputfile.read(8000):
+                    continue # File doesn't appear to be binary
+            if filename not in lfs_files:
+                size = path.getsize(filename)
+                if size > args.maximum_binary_size:
+                    print(WARNING_MSG.format(filename, sizeof_fmt(size),
+                        sizeof_fmt(args.maximum_binary_size)))
+                    retcode = 1
     return retcode
 
 
