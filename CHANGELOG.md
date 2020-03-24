@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.0.11
+
+Update Python version for all hooks to Python3.
+
+## v0.0.10
+
+Specify Python version for `evforce-action-comments` and `lfs-large-files`.
+
 ## v0.0.9
 
 Case-insensitive checks on license names for `--explicit-packages`.
