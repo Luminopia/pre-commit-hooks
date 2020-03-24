@@ -3,7 +3,6 @@
   description: "This hook ensures that there are no comments that demand immediate action"
   entry: enforce-action-comments
   language: python
-  language_version: python2
   args: [ --tags, 'FIXME,FIX ME']
   files: ''
 - id: lfs-large-files

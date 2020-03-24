@@ -21,7 +21,7 @@ def main(argv=None):
                     for pattern in args.tags:
                         if pattern in line:
                             print(WARNING_MSG.format(
-                                pattern.decode(), filename, i + 1,
+                                pattern, filename, i + 1,
                             ))
                             retcode = 1
             except UnicodeDecodeError:
